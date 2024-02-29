@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from config.config_reader import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -74,11 +77,15 @@ WSGI_APPLICATION = 'github_docker.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+       'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': settings.DB_NAME,
+           'USER': settings.DB_USER,
+           'PASSWORD': settings.DB_PASS.get_secret_value(),
+           'HOST': settings.DB_HOST,  # Set to empty string for localhost.
+           'PORT': settings.DB_PORT,  # Set to empty string for default.
+       }
+   }
 
 
 # Password validation

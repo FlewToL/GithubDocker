@@ -2,11 +2,16 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from database.queries.orm import create_tables
+import asyncio
 
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'github_docker.settings')
+
+    asyncio.run(create_tables())
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
